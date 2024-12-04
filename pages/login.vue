@@ -1,12 +1,13 @@
 <script setup>
 useSeoMeta({
-  title: `Главная`,
+  title: `Войти`,
 });
 </script>
 
 <template>
-  <main>
-  </main>
+  <div>
+    
+  </div>
 </template>
 
 <style scoped></style>

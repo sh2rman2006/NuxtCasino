@@ -4,7 +4,7 @@
   <header>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">CasinoAmira</a>
+        <NuxtLink to="/" class="navbar-brand">CasinoAmira</NuxtLink>
         <img src="" alt="" />
         <button
           class="navbar-toggler"
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="d-flex gap-4 right-bar">
-        <a href="" class="btn btn-secondary">Войти</a>
+        <NuxtLink to="login" class="btn btn-secondary">Войти</NuxtLink>
         <a href="" class="btn btn-primary">Регистрация</a>
       </div>
     </nav>
