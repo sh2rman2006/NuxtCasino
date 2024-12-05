@@ -56,10 +56,20 @@ watch(inputBetAmount, (newValue) => {
 
 const isMoreThenBalance = ref(false);
 const coinResponse = reactive({});
+const coinImage = ref(
+  `https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif`
+);
+const coinObgectFit = ref(`cover`);
 const submitBet = async () => {
   await getCsrfToken();
   let jwtToken = sessionStorage.getItem(`Bearer`);
+
   if (isValid && jwtToken && csrfToken.value) {
+
+    coinImage.value = `https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif`;
+    coinObgectFit.value = `cover`;
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
     await axios
       .post(
         `/games/coin`,
@@ -77,12 +87,19 @@ const submitBet = async () => {
       .then((response) => {
         Object.assign(coinResponse, response.data);
         isMoreThenBalance.value = false;
+        if (coinResponse.valueOfCoin == 1) {
+          coinImage.value = `/Orel.jpg`;
+        } else {
+          coinImage.value = `/Reshka.jpg`;
+        }
+        coinObgectFit.value = `contain`;
       })
       .catch((e) => {
         if (e.response.status == 402) {
           isMoreThenBalance.value = true;
         }
       });
+
     getBalance();
     getGameStory();
   }
@@ -141,10 +158,10 @@ const submitBet = async () => {
     <section>
       <div class="coinGame">
         <NuxtImg
-          src="https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif"
-          format="mp4"
+          :src="coinImage"
           alt=""
           class="coinFlip"
+          :style="{ objectFit: coinObgectFit }"
         />
         <!-- src="https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif" -->
       </div>
@@ -164,7 +181,6 @@ const submitBet = async () => {
 .coinGame .coinFlip {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   pointer-events: none;
 }
 
