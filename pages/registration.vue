@@ -5,19 +5,48 @@ axios.defaults.baseURL = `http://localhost:8080`;
 axios.defaults.withCredentials = true;
 
 useSeoMeta({
-  title: `Войти`,
+  title: `Регистрация`,
 });
+
 definePageMeta({
   layout: ``,
 });
 
 const inputUsername = ref(``);
+const inputEmail = ref(``);
 const inputPassword = ref(``);
 
-const submitLogin = async () => {
-  if (inputUsername.value.length == 0 || inputPassword.value.length == 0) {
+const responseMessageRegistration = ref(``);
+const submitRegistration = async () => {
+  if (
+    inputUsername.value.length == 0 ||
+    inputEmail.value.length == 0 ||
+    inputPassword.value.length == 0
+  ) {
     return;
   }
+  await getCsrfToken();
+  await axios
+    .post(
+      `/user/register`,
+      {
+        username: inputUsername.value,
+        email: inputEmail.value,
+        password: inputPassword.value,
+      },
+      {
+        headers: { "X-XSRF-TOKEN": csrfToken.value },
+      }
+    )
+    .then((response) => {
+      sessionStorage.setItem("bearer", response.data.token);
+      responseMessageRegistration.value = `Вы успешно зарегистрированы !!!`;
+    })
+    .catch((e) => {
+      if (e.response.status == 409) {
+        responseMessageRegistration.value = `Такой пользователь уже существует!!!`;
+      }
+    });
 };
 
 const csrfToken = ref(``);
@@ -38,10 +67,10 @@ const togglePasswordType = () => {
 </script>
 
 <template>
-  <div class="loginPage">
+  <div class="registerPage">
     <div class="modal__box">
       <header>
-        Войти
+        Регистрация
         <NuxtLink to="/">
           <Icon
             name="line-md:close"
@@ -51,13 +80,20 @@ const togglePasswordType = () => {
           />
         </NuxtLink>
       </header>
-      <form @submit.prevent="">
+      <form @submit.prevent="submitRegistration">
         <input
           type="text"
           class="form-control"
           required
           placeholder="username"
           v-model.trim="inputUsername"
+        />
+        <input
+          type="email"
+          class="form-control"
+          required
+          placeholder="email"
+          v-model.trim="inputEmail"
         />
         <div class="password__input">
           <input
@@ -71,8 +107,11 @@ const togglePasswordType = () => {
         </div>
         <button type="submit" class="btn btn-secondary">Отправить</button>
       </form>
+      <div v-if="responseMessageRegistration" class="response">
+        {{ responseMessageRegistration }}
+      </div>
       <div class="change__way">
-        <NuxtLink class="btn" to="registration">Регистрация</NuxtLink>
+        <NuxtLink class="btn" to="login">Войти</NuxtLink>
         <NuxtLink class="btn">Забыли пароль?</NuxtLink>
       </div>
     </div>
@@ -80,7 +119,7 @@ const togglePasswordType = () => {
 </template>
 
 <style scoped>
-.loginPage {
+.registerPage {
   min-height: 100vh;
   background: url("/assets/BackgroundLogin.svg") fixed center/cover;
   display: flex;

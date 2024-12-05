@@ -42,7 +42,9 @@
       </div>
       <div class="d-flex gap-4 right-bar">
         <NuxtLink to="login" class="btn btn-secondary">Войти</NuxtLink>
-        <a href="" class="btn btn-primary">Регистрация</a>
+        <NuxtLink to="registration" class="btn btn-primary"
+          >Регистрация</NuxtLink
+        >
       </div>
     </nav>
   </header>
