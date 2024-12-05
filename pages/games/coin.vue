@@ -65,7 +65,6 @@ const submitBet = async () => {
   let jwtToken = sessionStorage.getItem(`Bearer`);
 
   if (isValid && jwtToken && csrfToken.value) {
-
     coinImage.value = `https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif`;
     coinObgectFit.value = `cover`;
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -121,6 +120,7 @@ const submitBet = async () => {
               <span>Сумма ставки:</span>
               <input
                 type="text"
+                required
                 v-model.trim="inputBetAmount"
                 class="form-control"
                 placeholder="Введите сумму"
