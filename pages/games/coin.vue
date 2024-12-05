@@ -51,9 +51,42 @@ watch(inputBetAmount, (newValue) => {
   if (newValue[-1] == `.`) {
     isValid.value = false;
   }
+  isMoreThenBalance.value = false;
 });
 
-
+const isMoreThenBalance = ref(false);
+const coinResponse = reactive({});
+const submitBet = async () => {
+  await getCsrfToken();
+  let jwtToken = sessionStorage.getItem(`Bearer`);
+  if (isValid && jwtToken && csrfToken.value) {
+    await axios
+      .post(
+        `/games/coin`,
+        {
+          choose: inputChoose.value,
+          betAmount: inputBetAmount.value,
+        },
+        {
+          headers: {
+            "X-XSRF-TOKEN": csrfToken.value,
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        Object.assign(coinResponse, response.data);
+        isMoreThenBalance.value = false;
+      })
+      .catch((e) => {
+        if (e.response.status == 402) {
+          isMoreThenBalance.value = true;
+        }
+      });
+    getBalance();
+    getGameStory();
+  }
+};
 </script>
 
 <template>
@@ -61,8 +94,8 @@ watch(inputBetAmount, (newValue) => {
     <div class="sidebar">
       <section>
         <div class="container">
-          <form>
-            <h2>Орёл или решка</h2>
+          <h2>Орёл или решка</h2>
+          <form @submit.prevent="submitBet">
             <select class="form-control" v-model="inputChoose">
               <option value="1">Орёл</option>
               <option value="2">Решка</option>
@@ -77,6 +110,9 @@ watch(inputBetAmount, (newValue) => {
               />
               <span v-if="!isValid" style="color: red; font-size: 20px"
                 >Такое значение недопустимо!!!</span
+              >
+              <span v-if="isMoreThenBalance" style="color: red; font-size: 20px"
+                >Недостаточно средств</span
               >
             </label>
             <div class="balance" v-if="balance">
@@ -102,11 +138,37 @@ watch(inputBetAmount, (newValue) => {
       </section>
     </div>
     <!--  -->
-    
+    <section>
+      <div class="coinGame">
+        <NuxtImg
+          src="https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif"
+          format="mp4"
+          alt=""
+          class="coinFlip"
+        />
+        <!-- src="https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif" -->
+      </div>
+    </section>
   </main>
 </template>
 
 <style scoped>
+.coinGame {
+  position: fixed;
+  left: 0;
+  width: 70%;
+  height: 100%;
+  background-color: #393d48;
+}
+
+.coinGame .coinFlip {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* sideBar */
 .sidebar {
   position: fixed;
   right: 0;
