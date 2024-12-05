@@ -5,7 +5,14 @@ useSeoMeta({
 </script>
 
 <template>
-  <main></main>
+  <main>
+    
+  </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+main {
+  min-height: 100vh;
+  background: #000;
+}
+</style>
