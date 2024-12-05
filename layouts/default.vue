@@ -4,7 +4,7 @@
   <header>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
-        <NuxtLink to="/" class="navbar-brand">CasinoAmira</NuxtLink>
+        <NuxtLink to="/" class="navbar-brand">CasinoNikita</NuxtLink>
         <button
           class="navbar-toggler"
           type="button"
