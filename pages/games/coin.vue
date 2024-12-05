@@ -163,7 +163,6 @@ const submitBet = async () => {
           class="coinFlip"
           :style="{ objectFit: coinObgectFit }"
         />
-        <!-- src="https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif" -->
       </div>
     </section>
   </main>
