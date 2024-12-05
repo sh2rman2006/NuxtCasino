@@ -111,7 +111,7 @@ const togglePasswordType = () => {
         {{ responseMessageRegistration }}
       </div>
       <div class="change__way">
-        <NuxtLink class="btn" to="login">Войти</NuxtLink>
+        <NuxtLink class="btn" to="/login">Войти</NuxtLink>
         <NuxtLink class="btn">Забыли пароль?</NuxtLink>
       </div>
     </div>

@@ -5,7 +5,6 @@
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
         <NuxtLink to="/" class="navbar-brand">CasinoAmira</NuxtLink>
-        <img src="" alt="" />
         <button
           class="navbar-toggler"
           type="button"
@@ -33,7 +32,11 @@
                 >Список игр</a
               >
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Монетка</a></li>
+                <li>
+                  <NuxtLink class="dropdown-item" to="/games/coin"
+                    >Монетка</NuxtLink
+                  >
+                </li>
                 <li><a class="dropdown-item" href="#">Ракета</a></li>
               </ul>
             </li>
@@ -41,8 +44,8 @@
         </div>
       </div>
       <div class="d-flex gap-4 right-bar">
-        <NuxtLink to="login" class="btn btn-secondary">Войти</NuxtLink>
-        <NuxtLink to="registration" class="btn btn-primary"
+        <NuxtLink to="/login" class="btn btn-secondary">Войти</NuxtLink>
+        <NuxtLink to="/registration" class="btn btn-primary"
           >Регистрация</NuxtLink
         >
       </div>

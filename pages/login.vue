@@ -14,10 +14,32 @@ definePageMeta({
 const inputUsername = ref(``);
 const inputPassword = ref(``);
 
+const responseMessage = ref(``);
 const submitLogin = async () => {
   if (inputUsername.value.length == 0 || inputPassword.value.length == 0) {
     return;
   }
+  await getCsrfToken();
+  await axios
+    .post(
+      `/user/login`,
+      {
+        username: inputUsername.value,
+        password: inputPassword.value,
+      },
+      {
+        headers: { "X-XSRF-TOKEN": csrfToken.value },
+      }
+    )
+    .then((response) => {
+      sessionStorage.setItem("bearer", response.data.token);
+      responseMessage.value = `Вы успешно вошли!!!`;
+    })
+    .catch((e) => {
+      if (e.response.status == 401) {
+        responseMessage.value = `Неудалось войти в аккаунт`;
+      }
+    });
 };
 
 const csrfToken = ref(``);
@@ -51,7 +73,7 @@ const togglePasswordType = () => {
           />
         </NuxtLink>
       </header>
-      <form @submit.prevent="">
+      <form @submit.prevent="submitLogin">
         <input
           type="text"
           class="form-control"
@@ -71,8 +93,11 @@ const togglePasswordType = () => {
         </div>
         <button type="submit" class="btn btn-secondary">Отправить</button>
       </form>
+      <div class="response" v-if="responseMessage">
+        {{ responseMessage }}
+      </div>
       <div class="change__way">
-        <NuxtLink class="btn" to="registration">Регистрация</NuxtLink>
+        <NuxtLink class="btn" to="/registration">Регистрация</NuxtLink>
         <NuxtLink class="btn">Забыли пароль?</NuxtLink>
       </div>
     </div>
