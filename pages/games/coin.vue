@@ -8,6 +8,9 @@ useSeoMeta({
   title: `Монетка`,
 });
 
+const inputChoose = ref(``);
+const inputBetAmount = ref(``);
+
 const csrfToken = ref(``);
 const getCsrfToken = async () => {
   let response = await axios.get(`/csrf`);
@@ -24,6 +27,10 @@ const getCsrfToken = async () => {
           <option value="орёл">Орёл</option>
           <option value="решка">Решка</option>
         </select>
+        <label>
+          <span>Сумма ставки:</span>
+          <input type="text" v-model.trim="inputBetAmount" />
+        </label>
       </div>
     </div>
   </main>
@@ -36,8 +43,12 @@ const getCsrfToken = async () => {
   height: 100%;
   width: 30%;
   overflow-y: auto;
-  background-color: #38464C;
+  background-color: #38464c;
   color: white;
+}
+
+h2 {
+  margin-top: 15px;
 }
 
 .form-control {
