@@ -36,14 +36,14 @@ const getCsrfToken = async () => {
   height: 100%;
   width: 30%;
   overflow-y: auto;
-  background-color: #0f1444;
+  background-color: #38464C;
   color: white;
 }
 
 .form-control {
   margin-top: 15px;
   border: none;
-  transition: 0.3s;
+  transition: 0.2s;
 
   &:focus {
     box-shadow: 0 0 10px rgba(255, 255, 255, 1);
