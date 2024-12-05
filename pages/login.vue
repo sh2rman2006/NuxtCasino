@@ -32,7 +32,7 @@ const submitLogin = async () => {
       }
     )
     .then((response) => {
-      sessionStorage.setItem("bearer", response.data.token);
+      sessionStorage.setItem("Bearer", response.data.token);
       responseMessage.value = `Вы успешно вошли!!!`;
     })
     .catch((e) => {

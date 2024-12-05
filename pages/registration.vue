@@ -39,7 +39,7 @@ const submitRegistration = async () => {
       }
     )
     .then((response) => {
-      sessionStorage.setItem("bearer", response.data.token);
+      sessionStorage.setItem("Bearer", response.data.token);
       responseMessageRegistration.value = `Вы успешно зарегистрированы !!!`;
     })
     .catch((e) => {
