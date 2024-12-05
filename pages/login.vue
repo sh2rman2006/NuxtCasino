@@ -107,7 +107,7 @@ const togglePasswordType = () => {
 <style scoped>
 .loginPage {
   min-height: 100vh;
-  background: url("/assets/BackgroundLogin.svg") fixed center/cover;
+  background: url("/public/BackgroundLogin.svg") fixed center/cover;
   display: flex;
   justify-content: center;
   align-items: center;
