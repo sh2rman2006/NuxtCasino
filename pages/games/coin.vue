@@ -60,11 +60,13 @@ const coinImage = ref(
   `https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif`
 );
 const coinObgectFit = ref(`cover`);
+const buttonDisabled = ref(``);
 const submitBet = async () => {
   await getCsrfToken();
   let jwtToken = sessionStorage.getItem(`Bearer`);
 
-  if (isValid && jwtToken && csrfToken.value) {
+  if (isValid && jwtToken && csrfToken.value && !buttonDisabled.value) {
+    buttonDisabled.value = `disabled`;
     coinImage.value = `https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif`;
     coinObgectFit.value = `cover`;
     await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -99,6 +101,7 @@ const submitBet = async () => {
         }
       });
 
+    buttonDisabled.value = ``;
     getBalance();
     getGameStory();
   }
@@ -136,7 +139,13 @@ const submitBet = async () => {
               Ваш баланс: <span>{{ balance }}₽</span>
             </div>
             <div class="NotAuth" v-else>Вы не авторизованы!!!</div>
-            <button type="submit" class="btn btn-secondary">Отправить</button>
+            <button
+              type="submit"
+              class="btn btn-secondary"
+              :class="buttonDisabled"
+            >
+              Отправить
+            </button>
           </form>
         </div>
       </section>
