@@ -39,6 +39,9 @@ const formatDate = (currentDate) => {
           Коэффициент: {{ gameData.rateCoefficient }}
         </li>
         <li class="list-group-item bg-success">Победа</li>
+        <li class="list-group-item bg-success">
+          Сторона: {{ gameData.coinSide }}
+        </li>
       </ul>
     </div>
   </div>
@@ -63,6 +66,9 @@ const formatDate = (currentDate) => {
           Коэффициент: {{ gameData.rateCoefficient }}
         </li>
         <li class="list-group-item bg-danger">Поражение</li>
+        <li class="list-group-item bg-danger">
+          Сторона: {{ gameData.coinSide }}
+        </li>
       </ul>
     </div>
   </div>

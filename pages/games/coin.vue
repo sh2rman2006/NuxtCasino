@@ -106,6 +106,12 @@ const submitBet = async () => {
     getGameStory();
   }
 };
+
+const allIn = () => {
+  if (balance.value) {
+    inputBetAmount.value = balance.value;
+  }
+};
 </script>
 
 <template>
@@ -145,6 +151,14 @@ const submitBet = async () => {
               :class="buttonDisabled"
             >
               Отправить
+            </button>
+            <button
+              type="submit"
+              class="btn btn-outline-primary"
+              :class="buttonDisabled"
+              @click="allIn"
+            >
+              All-in
             </button>
           </form>
         </div>
