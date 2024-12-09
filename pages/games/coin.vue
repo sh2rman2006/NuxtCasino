@@ -44,7 +44,7 @@ const getBalance = async () => {
   }
 };
 onMounted(getBalance);
-
+// input validator
 const isValid = ref(true);
 watch(inputBetAmount, (newValue) => {
   isValid.value = /^[0-9]*(\.[0-9]*)?$/.test(newValue);
@@ -53,7 +53,7 @@ watch(inputBetAmount, (newValue) => {
   }
   isMoreThenBalance.value = false;
 });
-
+// submit
 const isMoreThenBalance = ref(false);
 const coinResponse = reactive({});
 const coinImage = ref(
@@ -106,7 +106,7 @@ const submitBet = async () => {
     getGameStory();
   }
 };
-
+// all-in
 const allIn = async () => {
   if (balance.value) {
     inputBetAmount.value = balance.value;
