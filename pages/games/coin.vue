@@ -107,9 +107,55 @@ const submitBet = async () => {
   }
 };
 
-const allIn = () => {
+const allIn = async () => {
   if (balance.value) {
     inputBetAmount.value = balance.value;
+  } else {
+    return;
+  }
+
+  await getCsrfToken();
+  let jwtToken = sessionStorage.getItem(`Bearer`);
+
+  if (isValid && jwtToken && csrfToken.value && !buttonDisabled.value) {
+    buttonDisabled.value = `disabled`;
+    coinImage.value = `https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif`;
+    coinObgectFit.value = `cover`;
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    await axios
+      .post(
+        `/games/coin`,
+        {
+          choose: inputChoose.value,
+          betAmount: inputBetAmount.value,
+        },
+        {
+          headers: {
+            "X-XSRF-TOKEN": csrfToken.value,
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        Object.assign(coinResponse, response.data);
+        isMoreThenBalance.value = false;
+        if (coinResponse.valueOfCoin == 1) {
+          coinImage.value = `/Orel.jpg`;
+        } else {
+          coinImage.value = `/Reshka.jpg`;
+        }
+        coinObgectFit.value = `contain`;
+      })
+      .catch((e) => {
+        if (e.response.status == 402) {
+          isMoreThenBalance.value = true;
+        }
+      });
+
+    buttonDisabled.value = ``;
+    getBalance();
+    getGameStory();
   }
 };
 </script>
@@ -152,15 +198,15 @@ const allIn = () => {
             >
               Отправить
             </button>
-            <button
-              type="submit"
-              class="btn btn-outline-primary"
-              :class="buttonDisabled"
-              @click="allIn"
-            >
-              All-in
-            </button>
           </form>
+          <button
+            type="submit"
+            class="btn btn-outline-primary All-in"
+            :class="buttonDisabled"
+            @click="allIn"
+          >
+            All-in
+          </button>
         </div>
       </section>
       <section class="history">
@@ -240,6 +286,11 @@ form {
 
 .balance {
   font-size: 20px;
+}
+
+.All-in {
+  margin-top: 15px;
+  width: 100%;
 }
 
 .balance span {
