@@ -10,13 +10,13 @@ useSeoMeta({
 // inputs
 const inputChoose = ref(`1`);
 const inputBetAmount = ref(``);
-
+//csrf
 const csrfToken = ref(``);
 const getCsrfToken = async () => {
   let response = await axios.get(`/csrf`);
   csrfToken.value = response.data.token;
 };
-
+// coin history
 const storyOfCoin = reactive([]);
 const getGameStory = async () => {
   let jwtToken = sessionStorage.getItem(`Bearer`);
@@ -30,7 +30,7 @@ const getGameStory = async () => {
   }
 };
 onMounted(getGameStory);
-
+// balance
 const balance = ref(``);
 const getBalance = async () => {
   let jwtToken = sessionStorage.getItem(`Bearer`);
