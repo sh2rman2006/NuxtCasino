@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true;
 useSeoMeta({
   title: `Монетка`,
 });
-
+// inputs
 const inputChoose = ref(`1`);
 const inputBetAmount = ref(``);
 
@@ -106,30 +106,6 @@ const submitBet = async () => {
     getGameStory();
   }
 };
-// all-in
-const allIn = async () => {
-  if (balance.value) {
-    inputBetAmount.value = balance.value;
-  } else {
-    return;
-  }
-};
-
-const betOneOfFor = () => {
-  if (balance.value) {
-    inputBetAmount.value = Math.floor(balance.value / 4);
-  } else {
-    return;
-  }
-};
-
-const betOneOfTwo = () => {
-  if (balance.value) {
-    inputBetAmount.value = Math.floor(balance.value / 2);
-  } else {
-    return;
-  }
-};
 </script>
 
 <template>
@@ -175,15 +151,21 @@ const betOneOfTwo = () => {
             type="submit"
             class="btn btn-outline-primary All-in"
             :class="buttonDisabled"
-            @click="allIn"
+            @click="inputBetAmount = balance"
           >
             All-in
           </button>
           <div class="betChoose">
-            <button class="btn btn-outline-success" @click="betOneOfTwo">
+            <button
+              class="btn btn-outline-success"
+              @click="inputBetAmount = Math.floor(balance / 2)"
+            >
               1/2
             </button>
-            <button class="btn btn-outline-success" @click="betOneOfFor">
+            <button
+              class="btn btn-outline-success"
+              @click="inputBetAmount = Math.floor(balance / 4)"
+            >
               1/4
             </button>
           </div>
