@@ -8,22 +8,14 @@ useSeoMeta({
   title: `История`,
 });
 
-const storyOfCoin = reactive([]);
-const isStoryEmpty = ref(false);
+const storyAll = reactive([]);
 const getGameStory = async () => {
   let jwtToken = sessionStorage.getItem(`Bearer`);
   if (jwtToken) {
-    try {
-      let response = await axios.get(`/games/story/getAll`, {
-        headers: { Authorization: `Bearer ${jwtToken}` },
-      });
-      storyOfCoin.splice(0, storyOfCoin.length, ...response.data);
-      isStoryEmpty.value = false;
-    } catch (error) {
-      if (error.response.status === 404) {
-        isStoryEmpty.value = true;
-      }
-    }
+    let response = await axios.get(`/games/story/getAll`, {
+      headers: { Authorization: `Bearer ${jwtToken}` },
+    });
+    storyAll.splice(0, storyAll.length, ...response.data);
   } else {
     return;
   }
@@ -36,7 +28,7 @@ const inputCoinSide = ref(``);
 const filtertViewer = computed(() => {
   if (inputGame.value == `Coin`) {
     if (inputWinOrLoose.value === `true`) {
-      return storyOfCoin.filter(
+      return storyAll.filter(
         (el) =>
           el.gameName == `Coin` &&
           el.coinSide.includes(inputCoinSide.value) &&
@@ -44,25 +36,25 @@ const filtertViewer = computed(() => {
       );
     }
     if (inputWinOrLoose.value === `false`) {
-      return storyOfCoin.filter(
+      return storyAll.filter(
         (el) =>
           el.gameName == `Coin` &&
           el.coinSide.includes(inputCoinSide.value) &&
           el.winner == false
       );
     }
-    return storyOfCoin.filter(
+    return storyAll.filter(
       (el) => el.gameName == `Coin` && el.coinSide.includes(inputCoinSide.value)
     );
   } else {
     if (inputWinOrLoose.value) {
-      return storyOfCoin.filter(
+      return storyAll.filter(
         (el) =>
           el.gameName.includes(inputGame.value) &&
           el.winner == (inputWinOrLoose.value === `true` ? true : false)
       );
     } else {
-      return storyOfCoin.filter((el) => el.gameName.includes(inputGame.value));
+      return storyAll.filter((el) => el.gameName.includes(inputGame.value));
     }
   }
 });
@@ -100,12 +92,15 @@ const filtertViewer = computed(() => {
     </div>
   </div>
   <main>
-    <div class="container" v-if="!isStoryEmpty">
+    <div class="container" v-if="storyAll.length > 0">
       <div class="row">
         <div class="col" v-for="info in filtertViewer">
           <CardStory class="history-card" :gameData="info"></CardStory>
         </div>
       </div>
+    </div>
+    <div class="notPlayed" v-if="storyAll.length == 0">
+      <h1>Вы еще не играли <Icon name="ic:baseline-casino" size="1.5em" /></h1>
     </div>
   </main>
 </template>
@@ -130,6 +125,18 @@ main {
   &:hover {
     transform: scale(1.02);
   }
+}
+
+.notPlayed {
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  height: 100vh;
+}
+
+.notPlayed h1 {
+  display: flex;
+  align-items: center;
 }
 /*  */
 .sidebar {
