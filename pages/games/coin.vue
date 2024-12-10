@@ -113,7 +113,22 @@ const allIn = async () => {
   } else {
     return;
   }
-  submitBet();
+};
+
+const betOneOfFor = () => {
+  if (balance.value) {
+    inputBetAmount.value = balance.value / 4;
+  } else {
+    return;
+  }
+};
+
+const betOneOfTwo = () => {
+  if (balance.value) {
+    inputBetAmount.value = balance.value / 2;
+  } else {
+    return;
+  }
 };
 </script>
 
@@ -164,6 +179,14 @@ const allIn = async () => {
           >
             All-in
           </button>
+          <div class="betChoose">
+            <button class="btn btn-outline-success" @click="betOneOfTwo">
+              1/2
+            </button>
+            <button class="btn btn-outline-success" @click="betOneOfFor">
+              1/4
+            </button>
+          </div>
         </div>
       </section>
       <section class="history">
@@ -248,6 +271,17 @@ form {
 .All-in {
   margin-top: 15px;
   width: 100%;
+}
+
+.betChoose {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.betChoose .btn {
+  width: 50%;
 }
 
 .balance span {
