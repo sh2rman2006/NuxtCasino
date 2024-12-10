@@ -117,7 +117,7 @@ const allIn = async () => {
 
 const betOneOfFor = () => {
   if (balance.value) {
-    inputBetAmount.value = balance.value / 4;
+    inputBetAmount.value = Math.floor(balance.value / 4);
   } else {
     return;
   }
@@ -125,7 +125,7 @@ const betOneOfFor = () => {
 
 const betOneOfTwo = () => {
   if (balance.value) {
-    inputBetAmount.value = balance.value / 2;
+    inputBetAmount.value = Math.floor(balance.value / 2);
   } else {
     return;
   }
