@@ -24,8 +24,6 @@ const getGameStory = async () => {
         isStoryEmpty.value = true;
       }
     }
-    console.log(storyOfCoin);
-    
   } else {
     return;
   }
