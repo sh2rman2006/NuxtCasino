@@ -89,6 +89,7 @@ const filtertViewer = computed(() => {
           <option value="false">Поражение</option>
         </select>
       </label>
+      <h2 v-if="storyAll.length > 0">Количество: {{ filtertViewer.length }}</h2>
     </div>
   </div>
   <main>
