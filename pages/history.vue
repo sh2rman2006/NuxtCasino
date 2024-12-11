@@ -101,7 +101,9 @@ const filtertViewer = computed(() => {
       </div>
     </div>
     <div class="notPlayed" v-if="storyAll.length == 0">
-      <h1 style="color: white;">Вы еще не играли <Icon name="ic:baseline-casino" size="1.5em" /></h1>
+      <h1 style="color: white">
+        Вы еще не играли <Icon name="ic:baseline-casino" size="1.5em" />
+      </h1>
     </div>
   </main>
 </template>
