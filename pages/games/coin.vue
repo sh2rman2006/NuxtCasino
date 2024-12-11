@@ -106,6 +106,18 @@ const submitBet = async () => {
     getGameStory();
   }
 };
+
+const resetUser = async () => {
+  let jwtToken = sessionStorage.getItem(`Bearer`);
+  if (jwtToken) {
+    await axios.get("/user/reset", {
+      headers: { Authorization: `Bearer ${jwtToken}` },
+    });
+    getBalance();
+  } else {
+    return;
+  }
+};
 </script>
 
 <template>
@@ -147,6 +159,9 @@ const submitBet = async () => {
               Отправить
             </button>
           </form>
+          <div class="reset" style="margin-top: 15px;"v-if="storyOfCoin && !balance">
+            <button class="btn btn-primary w-100" @click="resetUser">reset</button>
+          </div>
           <button
             type="submit"
             class="btn btn-outline-primary All-in"
