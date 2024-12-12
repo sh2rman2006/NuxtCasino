@@ -159,8 +159,14 @@ const resetUser = async () => {
               Отправить
             </button>
           </form>
-          <div class="reset" style="margin-top: 15px;"v-if="storyOfCoin && !balance">
-            <button class="btn btn-primary w-100" @click="resetUser">reset</button>
+          <div
+            class="reset"
+            style="margin-top: 15px"
+            v-if="storyOfCoin.length > 0 && !balance"
+          >
+            <button class="btn btn-primary w-100" @click="resetUser">
+              reset
+            </button>
           </div>
           <button
             type="submit"
