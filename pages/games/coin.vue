@@ -106,7 +106,7 @@ const submitBet = async () => {
     getGameStory();
   }
 };
-
+// reset user
 const resetUser = async () => {
   let jwtToken = sessionStorage.getItem(`Bearer`);
   if (jwtToken) {
@@ -114,6 +114,7 @@ const resetUser = async () => {
       headers: { Authorization: `Bearer ${jwtToken}` },
     });
     getBalance();
+    inputBetAmount.value = ``;
   } else {
     return;
   }
