@@ -180,12 +180,14 @@ const resetUser = async () => {
           <div class="betChoose">
             <button
               class="btn btn-outline-success"
+              :class="buttonDisabled"
               @click="inputBetAmount = Math.floor(balance / 2)"
             >
               1/2
             </button>
             <button
               class="btn btn-outline-success"
+              :class="buttonDisabled"
               @click="inputBetAmount = Math.floor(balance / 4)"
             >
               1/4
