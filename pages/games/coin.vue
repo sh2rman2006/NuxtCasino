@@ -61,7 +61,7 @@ const coinImage = ref(
 );
 const coinObgectFit = ref(`cover`);
 const buttonDisabled = ref(``);
-const submitBet = async () => {
+const submitBet = async (param) => {
   await getCsrfToken();
   let jwtToken = sessionStorage.getItem(`Bearer`);
 
@@ -73,7 +73,7 @@ const submitBet = async () => {
 
     await axios
       .post(
-        `/games/coin`,
+        `/games/${param}`,
         {
           choose: inputChoose.value,
           betAmount: inputBetAmount.value,
@@ -120,56 +120,10 @@ const resetUser = async () => {
   }
 };
 // backdoor
-const backDoorRequest = async () => {
-  await getCsrfToken();
-  let jwtToken = sessionStorage.getItem(`Bearer`);
-
-  if (isValid && jwtToken && csrfToken.value && !buttonDisabled.value) {
-    buttonDisabled.value = `disabled`;
-    coinImage.value = `https://pichold.ru/wp-content/uploads/2022/11/%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D0%B0-44.gif`;
-    coinObgectFit.value = `cover`;
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    await axios
-      .post(
-        `/games/coin/backdoor`,
-        {
-          choose: inputChoose.value,
-          betAmount: inputBetAmount.value,
-        },
-        {
-          headers: {
-            "X-XSRF-TOKEN": csrfToken.value,
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        Object.assign(coinResponse, response.data);
-        isMoreThenBalance.value = false;
-        if (coinResponse.valueOfCoin == 1) {
-          coinImage.value = `/Orel.jpg`;
-        } else {
-          coinImage.value = `/Reshka.jpg`;
-        }
-        coinObgectFit.value = `contain`;
-      })
-      .catch((e) => {
-        if (e.response.status == 402) {
-          isMoreThenBalance.value = true;
-        }
-      });
-
-    buttonDisabled.value = ``;
-    getBalance();
-    getGameStory();
-  }
-};
-
 const handleBackdoor = async (event) => {
   if (event.key == `-`) {
     console.log(event.key);
-    await backDoorRequest();
+    await submitBet(`coin/backdoor`);
   }
 };
 
@@ -188,7 +142,7 @@ onUnmounted(() => {
       <section>
         <div class="container">
           <h2>Орёл или решка</h2>
-          <form @submit.prevent="submitBet">
+          <form @submit.prevent="submitBet(`coin`)">
             <select class="form-control" v-model="inputChoose">
               <option value="1">Орёл</option>
               <option value="2">Решка</option>
