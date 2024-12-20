@@ -66,7 +66,7 @@ const togglePasswordType = () => {
         Войти
         <NuxtLink to="/">
           <Icon
-            name="line-md:close"
+            name="line-md:menu-to-close-transition"
             class="close-icon"
             size="0.9em"
             style="color: white"
